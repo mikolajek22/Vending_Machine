@@ -9,7 +9,7 @@ namespace vending {
 
 class IDispenser {
     public:
-        virtual ~IDispenser();
+        virtual ~IDispenser() = default;
         virtual void dispense(const std::string& productId, std::function<void(DispenseResult)> onComplete) = 0;
 };
 
