@@ -13,8 +13,19 @@ target_link_libraries(Vending_Machine PRIVATE core)
 enable_testing()
 find_package(GTest REQUIRED)
 
-add_executable(tests tests/test_stateMachine.cpp)
-target_link_libraries(tests PRIVATE core GTest::gtest_main)
+add_executable(tests 
+    tests/test_stateMachine.cpp
+    tests/test_vendingManager.cpp
+)
+
+target_include_directories(tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/include
+)
+
+target_link_libraries(tests PRIVATE 
+    core 
+    GTest::gtest_main
+)
 
 include(GoogleTest)
 gtest_discover_tests(tests)
