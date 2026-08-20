@@ -5,6 +5,7 @@
 
 #include <tests/fakeDispenser.hpp>
 #include <tests/fakeCardReader.hpp>
+#include <tests/fakeTransactionJournal.hpp>
 
 #include <core/vendingManager.hpp>
 
@@ -15,7 +16,8 @@ TEST(VendingManager, VM_simulateCardTap)
 {
     FakeCardReader fcr;
     FakeDispenser fd;
-    VendingManager vm(fcr, fd);
+    FakeTransactionJournal ftj;
+    VendingManager vm(fcr, fd, ftj);
 
     fcr.simulateCardTap("card 1");
     EXPECT_EQ(vm.currentState(), State::STATE_CARD_READ);
@@ -25,7 +27,8 @@ TEST(VendingManager, VM_simulateProductDispensing)
 {
     FakeCardReader fcr;
     FakeDispenser fd;
-    VendingManager vm(fcr, fd);
+    FakeTransactionJournal ftj;
+    VendingManager vm(fcr, fd, ftj);
 
     fcr.simulateCardTap("card 1");
     vm.selectProduct("cola");
@@ -37,7 +40,8 @@ TEST(VendingManager, VM_simulateProductDispensingCompleted)
 {
     FakeCardReader fcr;
     FakeDispenser fd;
-    VendingManager vm(fcr, fd);
+    FakeTransactionJournal ftj;
+    VendingManager vm(fcr, fd, ftj);
 
     fcr.simulateCardTap("card 1");
     vm.selectProduct("cola");
@@ -49,7 +53,8 @@ TEST(VendingManager, VM_simulateProductDispensingFailed)
 {
     FakeCardReader fcr;
     FakeDispenser fd;
-    VendingManager vm(fcr, fd);
+    FakeTransactionJournal ftj;
+    VendingManager vm(fcr, fd, ftj);
 
     fcr.simulateCardTap("card 1");
     vm.selectProduct("cola");
@@ -62,7 +67,8 @@ TEST(VendingManager, VM_simulateDoubleCardTap)
 {
     FakeCardReader fcr;
     FakeDispenser fd;
-    VendingManager vm(fcr, fd);
+    FakeTransactionJournal ftj;
+    VendingManager vm(fcr, fd, ftj);
 
     fcr.simulateCardTap("card 1");
     vm.selectProduct("cola");
@@ -76,7 +82,8 @@ TEST(VendingManager, VM_simulateSelectNoCard)
 {
     FakeCardReader fcr;
     FakeDispenser fd;
-    VendingManager vm(fcr, fd);
+    FakeTransactionJournal ftj;
+    VendingManager vm(fcr, fd, ftj);
 
     vm.selectProduct("cola");
     EXPECT_EQ(vm.currentState(), State::STATE_IDLE);
@@ -88,7 +95,8 @@ TEST(VendingManager, VM_simulateTimeout)
 {
     FakeCardReader fcr;
     FakeDispenser fd;
-    VendingManager vm(fcr, fd, std::chrono::seconds(1));
+    FakeTransactionJournal ftj;
+    VendingManager vm(fcr, fd, ftj, std::chrono::seconds(1));
 
     fcr.simulateCardTap("card 1");
     vm.checkTimeout();
