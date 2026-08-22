@@ -5,6 +5,7 @@ add_library(core
     src/vendingManager.cpp
     src/uuid.cpp
     src/sqlTransactionJournal.cpp
+    src/transportWorker.cpp
 )
 
 target_include_directories(core PUBLIC include)
