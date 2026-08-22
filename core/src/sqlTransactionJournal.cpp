@@ -84,7 +84,7 @@ SqlTransactionJournal::~SqlTransactionJournal()
 
 void SqlTransactionJournal::save(const Transaction& transaction)
 {
-    char *querry = 
+    const char *querry = 
             "INSERT INOT transactions (uuid, cardId, productId, timestamp, status, synced)"
             "VALUES (?, ?, ?, ?, ?, ?);";
     
