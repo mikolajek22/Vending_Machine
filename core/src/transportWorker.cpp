@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <iostream>
+
 namespace vending
 {
 
@@ -48,14 +50,23 @@ bool TransportWorker::sync()
 }
 void TransportWorker::_thread_entry(std::chrono::milliseconds interval)
 {
-    const auto maxBackoff = std::chrono::milliseconds(30000);
+    const auto maxBackoff = std::chrono::milliseconds(5000);
     auto backoff = interval;
     while(_threadEnabled)
     {
-        if (sync())
+        bool syncStatus = sync();
+        if (syncStatus)
+        {
             backoff = interval;
+            std::cout << "Succeeded to Synchronize, current backoff: " << backoff << std::endl;
+        }
+            
         else
+        {
             backoff = std::min(backoff * 2, maxBackoff);
+            std::cout << "Succeeded to Synchronize, current backoff: " << backoff << std::endl;
+        }
+            
 
         std::this_thread::sleep_for(backoff);
     }
