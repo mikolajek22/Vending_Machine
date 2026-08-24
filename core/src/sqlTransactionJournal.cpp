@@ -41,9 +41,9 @@ void SqlTransactionJournal::_recovery()
     const char *querry = "UPDATE transactions SET status = ? WHERE status = ?";
     sqlite3_stmt *stmt = nullptr;
     // -1 copies querry till found '/0'
-    sqlite3_prepare16_v2(_db, querry, -1, &stmt, nullptr);
-    sqlite3_bind_int(stmt, 1, static_cast<int>(TransactionStatus::STATUS_PENDING));
-    sqlite3_bind_int(stmt, 2, static_cast<int>(TransactionStatus::STATUS_UNKNOWN));
+    sqlite3_prepare_v2(_db, querry, -1, &stmt, nullptr);
+    sqlite3_bind_int(stmt, 1, static_cast<int>(TransactionStatus::STATUS_UNKNOWN));
+    sqlite3_bind_int(stmt, 2, static_cast<int>(TransactionStatus::STATUS_PENDING));
     // proceed
     sqlite3_step(stmt);
     // free resources
@@ -85,11 +85,11 @@ SqlTransactionJournal::~SqlTransactionJournal()
 void SqlTransactionJournal::save(const Transaction& transaction)
 {
     const char *querry = 
-            "INSERT INOT transactions (uuid, cardId, productId, timestamp, status, synced)"
+            "INSERT INTO transactions (uuid, cardId, productId, timestamp, status, synced)"
             "VALUES (?, ?, ?, ?, ?, ?);";
     
     sqlite3_stmt *stmt;
-    sqlite3_prepare16_v2(_db, querry, -1, &stmt, nullptr);
+    sqlite3_prepare_v2(_db, querry, -1, &stmt, nullptr);
     // TRANSIENT to not lose string date after leaving method
     sqlite3_bind_text(stmt, 1, transaction.uuid.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_text(stmt, 2, transaction.cardId.c_str(), -1, SQLITE_TRANSIENT);
@@ -111,7 +111,7 @@ void SqlTransactionJournal::save(const Transaction& transaction)
 }
 void SqlTransactionJournal::updateStatus(const std::string uuid, const TransactionStatus status)
 {
-    const char *querry = "UPDATE transaction SET status = ? WHERE uuid = ?;";
+    const char *querry = "UPDATE transactions SET status = ? WHERE uuid = ?;";
     sqlite3_stmt *stmt = nullptr;
 
     sqlite3_prepare_v2(_db, querry, -1, &stmt, nullptr);
@@ -125,7 +125,7 @@ void SqlTransactionJournal::updateStatus(const std::string uuid, const Transacti
 }
 void SqlTransactionJournal::syncDone(const std::string &uuid)
 {
-    const char *querry = "UPDATE transaction SET synced = 1 WHERE uuid = ?;";
+    const char *querry = "UPDATE transactions SET synced = 1 WHERE uuid = ?;";
     sqlite3_stmt *stmt = nullptr;
 
     sqlite3_prepare_v2(_db, querry, -1, &stmt, nullptr);
