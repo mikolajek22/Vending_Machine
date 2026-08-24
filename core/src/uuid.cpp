@@ -14,7 +14,7 @@ std::string uuid::generate_v4()
     std::mt19937 generator(rd());
     std::uniform_int_distribution<uint8_t> dist;
 
-    for (auto byte : bytes)
+    for (auto &byte : bytes)
         byte = dist(generator);
 
     bytes[6] = (bytes[6] & 0xF) | 0x40;                 // set version of UUID to 4
