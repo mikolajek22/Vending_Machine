@@ -32,6 +32,7 @@ add_executable(tests
     tests/test_stateMachine.cpp
     tests/test_vendingManager.cpp
     tests/test_transportWorker.cpp
+    tests/test_sqlTransporter.cpp
 )
 
 target_include_directories(tests PRIVATE
