@@ -27,7 +27,7 @@ constexpr std::string const_catdId = "CARD_1";
 }  /* namespace */
 
 VendingMachineBridge::VendingMachineBridge(QObject* parent)
-    : QObject(parent) ,_manager(_cardReader, _dispenser, _journal) , _transportWorker(_journal, _transport)
+    : QObject(parent), _journal("vending.db") ,_manager(_cardReader, _dispenser, _journal) , _transportWorker(_journal, _transport)
 {
     _transport.setFailureProbability(const_BackendFailureProbability);
     _transportWorker.start(std::chrono::milliseconds(const_transportWorkerInterval));

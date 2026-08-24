@@ -6,7 +6,7 @@
 #include "tests/fakeCardReader.hpp"
 #include "tests/fakeDispenser.hpp"
 #include "tests/fakeTransport.hpp"
-#include "tests/fakeTransactionJournal.hpp"
+#include "core/sqlTransactionJournal.hpp"
 #include "core/transportWorker.hpp"
 #include "core/vendingManager.hpp"
 
@@ -39,7 +39,7 @@ private slots:
 private:
     vending::FakeCardReader         _cardReader;
     vending::FakeDispenser          _dispenser;
-    vending::FakeTransactionJournal _journal;
+    vending::SqlTransactionJournal  _journal;
     vending::FakeTransport          _transport;
     vending::VendingManager         _manager;
     vending::TransportWorker        _transportWorker;
