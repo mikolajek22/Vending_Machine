@@ -15,7 +15,7 @@ class VendingManager {
         void selectProduct(const std::string & productId);
         /* Periodically called */
         void checkTimeout();
-        State currentState();
+        State currentState() const;
     private:
         StateMachine            _sm;
         IDispenser              &_dispenser;
