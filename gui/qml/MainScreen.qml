@@ -30,25 +30,25 @@ Item {
 
             Button {
                 Layout.fillWidth: true
-                text: "Cola"
+                text: "cola"
                 enabled: bridge.state === "CardRead"
                 onClicked: bridge.selectProduct("cola")
             }
             Button {
                 Layout.fillWidth: true
-                text: "Woda"
+                text: "water"
                 enabled: bridge.state === "CardRead"
                 onClicked: bridge.selectProduct("water")
             }
             Button {
                 Layout.fillWidth: true
-                text: "Chipsy"
+                text: "beer"
                 enabled: bridge.state === "CardRead"
                 onClicked: bridge.selectProduct("beer")
             }
             Button {
                 Layout.fillWidth: true
-                text: "Baton"
+                text: "juice"
                 enabled: bridge.state === "CardRead"
                 onClicked: bridge.selectProduct("juice")
             }
