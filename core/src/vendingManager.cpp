@@ -42,7 +42,7 @@ void VendingManager::checkTimeout()
 {
     _sm.checkTimeout();
 }
-State VendingManager::currentState()
+State VendingManager::currentState() const
 {
     return _sm.currentState();
 }
