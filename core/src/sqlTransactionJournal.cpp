@@ -38,7 +38,7 @@ void SqlTransactionJournal::_init()
 
 void SqlTransactionJournal::_recovery()
 {
-    const char *querry = "UPDATE transactions SET status = ? WHERE status = ?";
+    const char *querry = "UPDATE transactions SET status = ?, synced = 0 WHERE status = ?";
     sqlite3_stmt *stmt = nullptr;
     // -1 copies querry till found '/0'
     sqlite3_prepare_v2(_db, querry, -1, &stmt, nullptr);
@@ -96,7 +96,7 @@ void SqlTransactionJournal::save(const Transaction& transaction)
     sqlite3_bind_text(stmt, 3, transaction.prductId.c_str(), -1, SQLITE_TRANSIENT);
     sqlite3_bind_int64(stmt, 4, convert_to_unixEpoch(transaction.timestamp));
     sqlite3_bind_int(stmt, 5, static_cast<int>(transaction.status));
-    sqlite3_bind_int(stmt, 6, static_cast<int>(transaction.synced));
+    sqlite3_bind_int(stmt, 6, static_cast<int>(0)); //force set as unsynced while saving transaction to db
 
     // proceed
     if (SQLITE_DONE != sqlite3_step(stmt))
@@ -111,7 +111,7 @@ void SqlTransactionJournal::save(const Transaction& transaction)
 }
 void SqlTransactionJournal::updateStatus(const std::string uuid, const TransactionStatus status)
 {
-    const char *querry = "UPDATE transactions SET status = ? WHERE uuid = ?;";
+    const char *querry = "UPDATE transactions SET status = ?, synced = 0 WHERE uuid = ?;";
     sqlite3_stmt *stmt = nullptr;
 
     sqlite3_prepare_v2(_db, querry, -1, &stmt, nullptr);
