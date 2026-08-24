@@ -33,9 +33,9 @@ void TransportWorker::stop()
 
 bool TransportWorker::sync()
 {
-    auto pending = _transactionJournal.findNotSynced();
+    auto notSynced = _transactionJournal.findNotSynced();
     bool ret = true;
-    for (const auto &transaction : pending)
+    for (const auto &transaction : notSynced)
     {
         if(_transport.send(transaction))
             _transactionJournal.syncDone(transaction.uuid);
